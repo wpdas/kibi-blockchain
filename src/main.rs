@@ -1,23 +1,43 @@
+/**
+ * Blockchain V3
+ * 
+ * TODO: melhorar o retorno das rotas com status certo
+ * TODO: Separar o modulo do blockchain do modulo de API de rotas
+ * TODO: Quando terminar, tentar usar o método de assinatura
+ * 
+ * TODO:
+ * from, to, amount
+ */
+
+// Server - API
+extern crate rocket;
+use rocket::{routes, launch, get};
+// use rocket::tokio::time::{sleep, Duration};
+
+mod routes;
+
+// Blockchain - Kibi (yes this is my blockchain name)
 mod kibi;
-use kibi::blockchain::Blockchain;
 
-fn main() {
-   let mut blockchain = Blockchain::new();
+// #[get("/delay/<seconds>")]
+// async fn delay(seconds: u64) -> String {
+//     sleep(Duration::from_secs(seconds)).await;
+//     format!("Waited for {} seconds", seconds)
+// }
 
-   // Add new transactions
-   let tx_data = "meu nome nao é johny".to_string(); // TODO: Lets use JSON.stringfy
-   let tx_data2 = "dados ocultos".to_string();
-   blockchain.add_new_transaction(tx_data);
-   blockchain.add_new_transaction(tx_data2);
-
-   // Mine
-   blockchain.mine();
-
-   let tx_data3 = "dados ocultos".to_string();
-   blockchain.add_new_transaction(tx_data3);
-   blockchain.mine();
-
-   for block in &blockchain.chain {
-       println!("{:?}", block);
-   }
+#[launch]
+fn rocket() -> _ {
+    rocket::build()
+        .mount("/", routes![routes::health_route::get])
+        .mount("/new_transaction", routes![routes::new_transaction::post])
+        .mount("/chain", routes![routes::get_chain::get])
+        .mount("/mine", routes![routes::mine_unconfirmed_transactions::get])
+        // .mount("/", routes![delay])
 }
+
+// #[rocket::post("/spawn", format = "application/json", data = "<text>")]
+// async fn spawn_endpoint(text: String) -> Result<String, ()> {
+//     run_on_current_thread(123);
+
+//     Ok(text.to_uppercase()) <<<==================== VEJA ISSO E USE COMO EXEMPLO
+// }

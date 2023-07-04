@@ -27,7 +27,7 @@ impl Blockchain {
   // Init the blockchain with a genesis block
   fn init(&mut self) {
       let hash_first = hash_generator("first_gen".to_string());
-      let genesis_block = Block::new(0, "0".to_string(), Some(hash_first));
+      let genesis_block = Block::new(0, "0".to_string(), Some(hash_first), None);
 
       self.chain.push(genesis_block);
   }
@@ -119,6 +119,7 @@ impl Blockchain {
         last_block.index + 1,
         last_block.hash.clone(),
         None,
+        Some(self.unconfirmed_transactions.clone()),
       );
 
       let proof = self.proof_of_work(&mut new_block);
