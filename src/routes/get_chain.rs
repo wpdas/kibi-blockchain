@@ -18,7 +18,9 @@ pub struct ChainResponse {
 pub fn get() -> Json<ChainResponse> {
   let mut chain_data: Vec<BlockJson> = vec![];
 
-  let chain = BlockchainInstance::get_chain();
+  let mut chain = BlockchainInstance::get_chain();
+  chain.reverse();
+
   for block in chain {
 
     // decode transactions

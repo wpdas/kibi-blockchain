@@ -1,13 +1,5 @@
 /**
  * Blockchain V2
- * 
- * TODO: Use serde JSON to store data (transaction)
- * TODO: Transform to Module
- * TODO: Quando terminar, tentar usar o método de assinatura
- * 
- * TODO:
- * from, to, amount
- * timestamp?
  */
 
 use sha256;

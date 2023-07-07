@@ -1,6 +1,9 @@
 use once_cell::sync::Lazy;
 
-use super::{blockchain::{Blockchain, MineReturnOptions}, block::Block};
+use super::{
+  blockchain::{Blockchain, MineReturnOptions},
+  block::Block
+};
 
 /**
  * A blockchian instance to be used globally
@@ -9,6 +12,7 @@ use super::{blockchain::{Blockchain, MineReturnOptions}, block::Block};
  * https://stackoverflow.com/questions/27791532/how-do-i-create-a-global-mutable-singleton
  */
 static mut BLOCKCHAIN: Lazy<Blockchain> = Lazy::new(|| Blockchain::new());
+// static mut ACCOUNTS: Lazy<AccountId> = Lazy::new(|| AccountId::init());
 
 pub struct BlockchainInstance {}
 
@@ -30,4 +34,8 @@ impl BlockchainInstance {
       return BLOCKCHAIN.mine()
     }
   }
+
+  // pub fn create_account(account: String) {
+  //   AccountId::new(account);
+  // }
 }

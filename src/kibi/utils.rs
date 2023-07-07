@@ -1,8 +1,8 @@
 use serde_json::Value;
 use sha256;
-use std::time::SystemTime;
+use std::{time::SystemTime, collections::HashMap};
 
-use super::block::{BlockJson, Block};
+use super::{block::{BlockJson, Block}, instance::BlockchainInstance, types::{Kib, KibFields}};
 
 pub fn hash_generator(data: String) -> String {
   return sha256::digest(data);
@@ -37,5 +37,29 @@ pub fn block_to_blockjson(block: Block) -> BlockJson {
   }
 }
 
+/**
+ * Get the most updated Kib fields info from chain
+ */
+pub fn get_kib_from_chain () -> Kib{
+  let mut chain = BlockchainInstance::get_chain();
+  chain.reverse();
+  
+  for block in chain {
+
+    // decode transactions
+    let block_json = block_to_blockjson(block);
+
+    for tx in block_json.transactions {
+      println!("CHECANDO Index: {:?}", &block_json.index);
+      if tx["kib"]["accounts"].is_object() {
+        let restored_kib: Kib = serde_json::from_value(tx).unwrap();
+        return restored_kib;
+      }
+    }
+  }
+
+  Kib { kib: KibFields { accounts: HashMap::new() } }
+}
+
 // Difficulty of PoW algorithm
-pub const DIFFICULTY: usize = 5;
+pub const DIFFICULTY: usize = 4;

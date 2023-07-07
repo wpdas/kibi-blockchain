@@ -1,17 +1,10 @@
 /**
  * Blockchain V3
- * 
- * TODO: melhorar o retorno das rotas com status certo
- * TODO: Separar o modulo do blockchain do modulo de API de rotas
- * TODO: Quando terminar, tentar usar o método de assinatura
- * 
- * TODO:
- * from, to, amount
  */
 
 // Server - API
 extern crate rocket;
-use rocket::{routes, launch, get};
+use rocket::{routes, launch};
 // use rocket::tokio::time::{sleep, Duration};
 
 mod routes;
@@ -32,6 +25,7 @@ fn rocket() -> _ {
         .mount("/new_transaction", routes![routes::new_transaction::post])
         .mount("/chain", routes![routes::get_chain::get])
         .mount("/mine", routes![routes::mine_unconfirmed_transactions::get])
+        .mount("/create_account", routes![routes::new_account::post])
         // .mount("/", routes![delay])
 }
 
