@@ -133,4 +133,11 @@ Rota usada para guardar novos dados em um contrato específico.
 
 Rota usada para buscar os dados mais atuais de um contrato.
 
+### contract_payload_json
+
+**URI:** http://localhost:8000/contract_payload_json/<contract_id> </br>
+**METHOD:** GET </br>
+
+Rota usada para buscar os dados mais atuais de um contrato e retorna-los no formato JSON.
+
 </details>

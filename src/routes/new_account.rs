@@ -9,7 +9,6 @@ use crate::kibi::{
 pub fn post(tx_data: Json<NewAccountData>) -> &'static str {
 
   let mut kib_data = get_kib_from_chain();
-  println!("TESTE {:?}", kib_data);
 
   // Check fields
   if tx_data.account.is_empty() {

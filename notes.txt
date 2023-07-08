@@ -1,3 +1,11 @@
+Corrigir a forma que se busca dados. Atualmente está buscando bloco por bloco
+mas o algoritmo deve buscar usando o "hash" / "prev_hash", para checar
+se o dado existe e retorná-lo. Isso deve ser feito somente para busca de dados.
+Para a rota de "chain" pode continuar do jeito que está.
+
+Talvez criar um novo projeto chamado "Blockchain DB" com a estrutura limpa.
+- Senha de acesso vai ser um hash gerado por senha
+
 ## Obs
 
 Creio que a ação de `mine` tenha que está do lado do cliente de alguma forma.

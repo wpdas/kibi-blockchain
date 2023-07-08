@@ -20,7 +20,7 @@ pub fn post(mut tx_data: Json<ContractTransactionData>) -> &'static str {
   //Blockchain
   let stringified_tx_data = serde_json::to_string(&tx_data.0).unwrap();
   
-  println!("{:?} tx_data:", stringified_tx_data);
+  // println!("{:?} tx_data:", stringified_tx_data);
 
   BlockchainInstance::add_new_transaction(stringified_tx_data);
   BlockchainInstance::mine();

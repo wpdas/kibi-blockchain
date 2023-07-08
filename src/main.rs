@@ -18,7 +18,10 @@ fn rocket() -> _ {
         .mount("/new_transaction", routes![routes::new_transaction::post])
         .mount("/contract_transaction", routes![routes::contract_transaction::post])
         .mount("/contract_payload", routes![routes::get_contract_payload::get])
+        .mount("/contract_payload_json", routes![routes::get_contract_payload_json::get])
         .mount("/chain", routes![routes::get_chain::get])
         .mount("/mine", routes![routes::mine_unconfirmed_transactions::get])
         .mount("/create_account", routes![routes::new_account::post])
+
+    
 }

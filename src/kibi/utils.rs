@@ -53,7 +53,6 @@ pub fn get_kib_from_chain () -> Kib{
     let block_json = block_to_blockjson(block);
 
     for tx in block_json.transactions {
-      println!("CHECANDO Index: {:?}", &block_json.index);
       if tx["kib"].is_object() {
         let restored_kib: Kib = serde_json::from_value(tx).unwrap();
         return restored_kib;
@@ -77,22 +76,12 @@ pub fn get_contract_from_chain (contract_id: String) -> Option<ContractTransacti
     let block_json = block_to_blockjson(block);
 
     for tx in block_json.transactions {
-      println!("CHECANDO Index: {:?}", &block_json.index);
-      // println!("RAPAIZ: {:?} {:?}", tx["contract_id"].is_string());
-      // let contract_id_key = &tx[contract_id.as_str()];
-      // let contract: ContractTransactionData = serde_json::from_value(tx).unwrap();
       if tx["contract_id"].is_string() {
         let contract: ContractTransactionData = serde_json::from_value(tx).unwrap();
-        if (contract.contract_id == contract_id) {
+        if contract.contract_id == contract_id {
           return Some(contract);
         }
-        // println!("RAPAIZ: {:?}", contract);
       }
-      // println!("RAPAIZ: {:?}", contract);
-      // if contract_id_key.is_string() {
-      //   let restored_contract = serde_json::from_value(tx).unwrap();
-      //   return restored_contract;
-      // }
     }
   }
 

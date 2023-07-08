@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TransactionData {
@@ -24,6 +25,14 @@ pub struct ContractTransactionData {
   pub contract_id: String,
   pub timestamp: Option<u64>,
   pub data: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ContractTransactionDataJson {
+  pub tx_type: TransactionType,
+  pub contract_id: String,
+  pub timestamp: Option<u64>,
+  pub data: Value,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
