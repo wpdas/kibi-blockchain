@@ -4,7 +4,9 @@ se o dado existe e retorná-lo. Isso deve ser feito somente para busca de dados.
 Para a rota de "chain" pode continuar do jeito que está.
 
 Talvez criar um novo projeto chamado "Blockchain DB" com a estrutura limpa.
-- Senha de acesso vai ser um hash gerado por senha
+- Sem senha. Senha nao faz sentido já que sao dados publicos
+- Mas faz sentido criar conta para poder fazer transacoes
+- - Nesse caso, as transacoes precisam de um "from" ou "by"
 
 ## Obs
 
