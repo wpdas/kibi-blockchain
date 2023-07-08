@@ -1,6 +1,9 @@
+use serde::Deserialize;
 use serde_json::Value;
 use sha256;
 use std::{time::SystemTime, collections::HashMap};
+
+use crate::kibi::types::ContractTransactionData;
 
 use super::{block::{BlockJson, Block}, instance::BlockchainInstance, types::{Kib, KibFields}};
 
@@ -43,7 +46,7 @@ pub fn block_to_blockjson(block: Block) -> BlockJson {
 pub fn get_kib_from_chain () -> Kib{
   let mut chain = BlockchainInstance::get_chain();
   chain.reverse();
-  
+
   for block in chain {
 
     // decode transactions
@@ -51,7 +54,7 @@ pub fn get_kib_from_chain () -> Kib{
 
     for tx in block_json.transactions {
       println!("CHECANDO Index: {:?}", &block_json.index);
-      if tx["kib"]["accounts"].is_object() {
+      if tx["kib"].is_object() {
         let restored_kib: Kib = serde_json::from_value(tx).unwrap();
         return restored_kib;
       }
@@ -59,6 +62,41 @@ pub fn get_kib_from_chain () -> Kib{
   }
 
   Kib { kib: KibFields { accounts: HashMap::new() } }
+}
+
+/**
+ * Get the most updated Contract fields info from chain
+ */
+pub fn get_contract_from_chain (contract_id: String) -> Option<ContractTransactionData>{
+  let mut chain = BlockchainInstance::get_chain();
+  chain.reverse();
+
+  for block in chain {
+
+    // decode transactions
+    let block_json = block_to_blockjson(block);
+
+    for tx in block_json.transactions {
+      println!("CHECANDO Index: {:?}", &block_json.index);
+      // println!("RAPAIZ: {:?} {:?}", tx["contract_id"].is_string());
+      // let contract_id_key = &tx[contract_id.as_str()];
+      // let contract: ContractTransactionData = serde_json::from_value(tx).unwrap();
+      if tx["contract_id"].is_string() {
+        let contract: ContractTransactionData = serde_json::from_value(tx).unwrap();
+        if (contract.contract_id == contract_id) {
+          return Some(contract);
+        }
+        // println!("RAPAIZ: {:?}", contract);
+      }
+      // println!("RAPAIZ: {:?}", contract);
+      // if contract_id_key.is_string() {
+      //   let restored_contract = serde_json::from_value(tx).unwrap();
+      //   return restored_contract;
+      // }
+    }
+  }
+
+  None
 }
 
 // Difficulty of PoW algorithm

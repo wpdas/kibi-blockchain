@@ -1,9 +1,73 @@
-## health check
+# Kibi Blockchain Experiment
+
+This is a project I created to simulate the operation of a Blockchain.
+
+## How to use
+
+Download this repo, then, run `cargo run`;
+
+## Contract App
+
+I've built an experimental Contract that uses Kibi Blockchain to store / read data. To use it, follow these steps:
+
+- 1 - Clone this repo and run `cargo run`;
+
+- 2 - Go to [Kib GreetingContract](#) repo and clone it;
+
+- 3 - Inside the `kibi-greeting-contract` repo/folder, run one of the commands below:
+
+Persisting a `greeting`:
+
+```sh
+# dev-1234 = the contract id
+# set_greeting = is a contract's method
+# "Hello from Wendz!" = is the string value to be stored on chain under the contract
+cargo run -- call dev-1234 set_greeting "Hello from Wendz!"
+```
+
+Viewing the current `greeting`:
+
+```sh
+# dev-1234 = the contract id
+# greeting = is a contract's field
+cargo run -- view dev-1234 greeting
+```
+
+<p align="left">
+  <img src="showcase.gif" />
+</p>
+
+## Create Account
+
+- 1 - Run `cargo run`.
+
+- 2 - Execute the command bellow to create an account (change the account value as you wish):
+
+```sh
+curl --location 'http://localhost:8000/create_account' \
+--header 'Content-Type: application/json' \
+--data '{
+    "account": "wendersonpires"
+}'
+```
+
+- 2 - Execute the command bellow to get the current chain data:
+
+```sh
+curl --location 'http://localhost:8000/chain'
+```
+
+You can navigate over the **REST Api** to get to know more.
+
+<details>
+  <summary>REST Api</summary>
+  
+### health check
 
 **URI:** http://localhost:8000 </br>
 **METHOD:** GET </br>
 
-## new transaction
+### new transaction
 
 **URI:** http://localhost:8000/new_transaction </br>
 **METHOD:** POST </br>
@@ -19,7 +83,7 @@
 
 O `body` que é o `dado` de cada transação é salvo na chain em forma de String (stringified JSON).
 
-## create account
+### create account
 
 **URI:** http://localhost:8000/create_account </br>
 **METHOD:** POST </br>
@@ -34,31 +98,39 @@ O `body` que é o `dado` de cada transação é salvo na chain em forma de Strin
 
 Esta rota faz executa o `mine` automaticamente pois deve-se assegurar que uma conta igual não seja registrada novamente.
 
-## mine
+### mine
 
 **URI:** http://localhost:8000/mine </br>
 **METHOD:** GET </br>
 
-## chain
+### chain
 
 **URI:** http://localhost:8000/chain </br>
 **METHOD:** GET </br>
 
 Durante o processo de buscar os blocos, todos os dados (`transactions` / `dado`) é convertido para JSON novamente para ser exibido ao cliente final.
 
-## Obs
+### contract transaction
 
-Creio que a ação de `mine` tenha que está do lado do cliente de alguma forma.
+**URI:** http://localhost:8000/contract_transaction </br>
+**METHOD:** POST </br>
+**BODY:**
 
-## Notes
+```json
+{
+  "tx_type": "CONTRACT",
+  "contract_id": "dev-1234",
+  "data": "stringified json content"
+}
+```
 
-(Usa esse metodo abaixo para criar conta / assinar transacao)
-Private / Public key (Flow para entendimento):
+Rota usada para guardar novos dados em um contrato específico.
 
-- Site pra testar a ideia: https://www.devglan.com/online-tools/rsa-encryption-decryption
+### contract_payload
 
-1 - Bob gera sua private key | public key
-2 - Bob pode compartilhar seu public key
-3 - Alice faz o mesmo, (ela tem sua private e public key)
-4 - Bob envia uma mensagem para Alice usando a public key dela para encriptografar a mensagem.
-5 - Alice usa a private key dela para descriptografar a mensagem enviada por Bob.
+**URI:** http://localhost:8000/contract_payload/<contract_id> </br>
+**METHOD:** GET </br>
+
+Rota usada para buscar os dados mais atuais de um contrato.
+
+</details>

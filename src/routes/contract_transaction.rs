@@ -1,7 +1,7 @@
 use rocket::{post, serde::json::Json};
 
 use crate::kibi::{
-  types::TransactionData,
+  types::ContractTransactionData,
   utils::get_timestamp,
   instance::BlockchainInstance
 };
@@ -9,9 +9,9 @@ use crate::kibi::{
 // TIP: '_ can be used to set the type as "unknown"
 
 #[post("/", format="json", data="<tx_data>")]
-pub fn post(mut tx_data: Json<TransactionData>) -> &'static str {
+pub fn post(mut tx_data: Json<ContractTransactionData>) -> &'static str {
   // Check fields
-  if tx_data.from.is_empty() || tx_data.content.is_empty() {
+  if tx_data.contract_id.is_empty() {
     return "Invalid transaction data" // 404
   }
 
@@ -23,6 +23,7 @@ pub fn post(mut tx_data: Json<TransactionData>) -> &'static str {
   println!("{:?} tx_data:", stringified_tx_data);
 
   BlockchainInstance::add_new_transaction(stringified_tx_data);
+  BlockchainInstance::mine();
 
   "Success"
 }
