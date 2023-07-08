@@ -1,12 +1,16 @@
-Corrigir a forma que se busca dados. Atualmente está buscando bloco por bloco
+1 - Corrigir a forma que se busca dados. Atualmente está buscando bloco por bloco
 mas o algoritmo deve buscar usando o "hash" / "prev_hash", para checar
 se o dado existe e retorná-lo. Isso deve ser feito somente para busca de dados.
 Para a rota de "chain" pode continuar do jeito que está.
 
-Talvez criar um novo projeto chamado "Blockchain DB" com a estrutura limpa.
+2 - Talvez criar um novo projeto chamado "Blockchain DB" com a estrutura limpa.
 - Sem senha. Senha nao faz sentido já que sao dados publicos
 - Mas faz sentido criar conta para poder fazer transacoes
 - - Nesse caso, as transacoes precisam de um "from" ou "by"
+
+3 - Salvar cada bloco num arquivo .json / .dat (no formato json). O nome
+deve ser o "hash" do bloco. Desta forma, ao buscar um dado, tudo estará
+persistido além da memória.
 
 ## Obs
 
